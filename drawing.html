@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Pikachu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #ffeb3b, #ff9800);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #userName {
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        canvas {
+            border: 4px solid #4CAF50;
+            border-radius: 12px;
+            background-color: #f3f3f3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            cursor: crosshair;
+        }
+
+        #timer, #accuracy {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Draw Pikachu</h1>
+    <p id="userName">User: N/A</p>
+    <p>Click the canvas to start drawing. You have 15 seconds!</p>
+    
+    <canvas id="drawingCanvas" width="500" height="500"></canvas>
+    <p id="timer">Time Left: 0:15</p>
+    <p id="accuracy">Accuracy: N/A</p>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const timerDisplay = document.getElementById('timer');
+        const accuracyDisplay = document.getElementById('accuracy');
+        const userNameDisplay = document.getElementById('userName');
+
+        let isDrawing = false;
+        let timeLeft = 15;
+        let timer;
+        let userDrawingData = [];
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userName = urlParams.get('name') || "User";
+        userNameDisplay.textContent = `User: ${userName}`;
+
+        canvas.addEventListener('click', function() {
+            if (!timer) {
+                startTimer();
+            }
+        });
+
+        function startTimer() {
+            timer = setInterval(function() {
+                timeLeft--;
+                timerDisplay.textContent = `Time Left: 0:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    calculateAccuracy();
+                }
+            }, 1000);
+        }
+
+        canvas.addEventListener('mousedown', function(event) {
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(event.offsetX, event.offsetY);
+            userDrawingData.push({ x: event.offsetX, y: event.offsetY });
+        });
+
+        canvas.addEventListener('mousemove', function(event) {
+            if (!isDrawing) return;
+            ctx.lineTo(event.offsetX, event.offsetY);
+            ctx.stroke();
+            userDrawingData.push({ x: event.offsetX, y: event.offsetY });
+        });
+
+        canvas.addEventListener('mouseup', function() {
+            isDrawing = false;
+        });
+
+        function calculateAccuracy() {
+            let similarity = Math.random(); // Simulated similarity (replace with ML model in real implementation)
+            let accuracy = (100 - (similarity * 100)).toFixed(2); // Subtract similarity from 100
+            accuracyDisplay.textContent = `Accuracy: ${accuracy}%`;
+            
+            if (accuracy > 80) {
+                setTimeout(() => {
+                    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>

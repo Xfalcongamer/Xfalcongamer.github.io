@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Drawing</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reference Image Styles */
+        #referenceImage {
+            width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #referenceImage:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Input Field Styles */
+        #nameInputContainer {
+            margin-top: 20px;
+        }
+
+        #nameLabel {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        #nameInput {
+            margin-top: 10px;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            width: 250px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        #nameInput:focus {
+            border-color: #45a049;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        /* Start Button Styles */
+        #startButton {
+            margin-top: 25px;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        #startButton:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #startButton:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #45a049;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Reference Drawing - Pikachu</h1>
+    <img id="referenceImage" src="images.jpg" alt="Pikachu Drawing Reference">
+    
+    <!-- Input field for the user's name -->
+    <div id="nameInputContainer">
+        <label id="nameLabel" for="nameInput">Enter your name:</label>
+        <br>
+        <input type="text" id="nameInput" placeholder="Your Name" required>
+    </div>
+
+    <!-- Start Button to redirect to drawing page -->
+    <button id="startButton" onclick="startDrawing()">Start Drawing</button>
+
+    <!-- Footer -->
+    <footer>
+        Made with ❤️ by <a href="#" target="_blank">Not You!</a>
+    </footer>
+
+    <script>
+        function startDrawing() {
+            const userName = document.getElementById('nameInput').value;
+            
+            if (userName.trim() === "") {
+                alert("Please enter your name before proceeding.");
+                return;
+            }
+            
+            // Redirect to the drawing page with the user's name as a query parameter
+            window.location.href = `drawing.html?name=${encodeURIComponent(userName)}`;
+        }
+    </script>
+</body>
+</html>
